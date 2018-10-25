@@ -217,6 +217,35 @@ G6.registerEdge(name, {
 }, extendShape);
 ```
 
+`边的数据模型 (属性值为样例数据)`
+```
+{
+  id: 'edge1',           // id 必须唯一
+  source: 'node1',       // 源节点 id
+  target: 'node2',       // 目标节点 id
+  controlPoints: [{      // 控制点
+    x: 10,
+	y: 10
+  }],
+  sourceAnchor: 0,       // 源节点锚点
+  targetAnchor: 2,       // 目标节点锚点
+  shape: 'line',         // 所用图形
+  style: {               // 关键形样式（优先级高于color）
+    fill: 'red',
+	stroke: 'blue'
+  },  
+  label: '文本标签' || {   // 文本标签 || 文本图形配置
+    text: '文本标签',
+	fill: 'green'
+  },
+  labelRectStyle: {      // 文本矩形底的样式
+    fill: 'blue'
+  },         
+  parent: 'group1',       // 所属组
+  index: 1,               // 渲染层级
+}
+```
+
 `线的形状三种`（云方）
 ```
 //flow-polyline折线
