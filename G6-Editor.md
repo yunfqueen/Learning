@@ -7,9 +7,10 @@
 * 5.锚点的位置,连接事件，点击事件，可控制是否显示，是否可作为源锚点添加边等
 * 6.数据的保存和读取
 * 7.G6Editor与Extjs的结合(可行)
+* 8.注册命令
 
 > 待解决问题(加粗问题优先级较高)
-* **1.<font color=#f00>自动绘制</font>**
+* **1.<font color=#f00>自动绘制</font>（进行中，底部问题详情中有具体进度）**
   * 说明：在其他页面中添加节点或修改内容后可根据数据在页面中自动绘制出新的流程图
 * **2.<font color=#f00>工作流模版</font>**
   * 说明：实例可能会和提供模版有差别，比如报销单，模版中的某个流程点为审核人员，实例中的该点有可能会在审核完成后变为审核人的头像并且后面会有个小对号表示审核已完成
@@ -20,7 +21,7 @@
 * 7.缩略图需求(后期需考虑该需求)
 * 8.edge上的文字，是否可换为图标icon，其颜色和倾斜角度是否可变化
 * 9.node节点是否可以拖拽来改变大小
-* 10.edge是否可以自己控制折点
+* 10.edge是否可以自己控制折点（进行中）
 
 ## 以下为已研究问题点详情
 ### node（付裕）
@@ -359,8 +360,81 @@ $('.color-box').colpick({
     }
 })
 ```
+### 注册命令registerCommand
+`以在toolbar注册save命令为例`
+```
+<i data-command="save" className="command iconfont icon-undo" title="保存"></i>
+//注册命令
+const Command = G6Editor.Command;
+//注册保存命令
+Command.registerCommand('save', {
+  queue: true,  // 命令是否进入队列，默认是 true  
+  // 命令是否可用
+  enable(editor) {
+    const page = editor.getCurrentPage();
+    if(page){
+      return true;
+    }
+  }, 
+  // 正向命令
+  execute(editor) {
+    const page = editor.getCurrentPage();
+    var data = page.save();
+  },
+  // 反向命令
+  back(/* editor */) {
 
-
+  }
+});
+```
+### 自动绘制
+`自动布局考虑过程`
+* 1.tree的数据模型如下，与我们所生成的数据模型不符（不可用）
+```
+{
+  roots: [
+    {
+      id: 'root',                    // 根节点 id 
+      color: '#333',                 // 颜色 
+      size: 10 || [10, 10],          // 尺寸 || [宽, 高]
+      shape: 'circle',               // 图形
+      style: {                       // 样式 (优先级高于 color) 
+        fill: 'red',
+    	stroke: 'blue'
+      },
+      label: '文本标签' || {           // 文本标签 || 文本图形配置
+        text: '文本标签',
+    	fill: 'green'
+      },
+      parent: 'parentId',            // 父节点 id
+      collapsed: false,              // 是否折叠
+      index: 1,                      // 渲染层级
+      children: [{                   // 子元素集 （子元素数据模型和根节点同构）
+	    id: 'leaf',
+      }],
+    }
+  ]
+}
+```
+* 2.plugin.layout.dagre 封装了 dagre 提供的布局算法。(对比来说目前最优，但是展现方式和我们的需求还是有差距，研究中……)
+```
+const dagre = new G6.Layouts.Dagre({
+  rankdir:'TB'   //布局方向 TB,BT,LR,RL
+});
+const page = new G6Editor.Flow({
+  graph: {
+    container: 'page',
+    height,
+    layout: dagre
+  },
+  align: {
+    grid: true
+  },
+  noEndEdge: false,
+  edgeResizeable: false
+});
+```
+  
 
 
 
