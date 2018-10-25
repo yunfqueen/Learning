@@ -389,7 +389,7 @@ Command.registerCommand('save', {
 ```
 ### 自动绘制
 `自动布局考虑过程`
-* 1.tree的数据模型如下，与我们所生成的数据模型不符（不可用）
+* 1.tree的数据模型如下，与我们所生成的数据模型不符（不可用）
 ```
 {
   roots: [
@@ -416,7 +416,7 @@ Command.registerCommand('save', {
   ]
 }
 ```
-* 2.plugin.layout.dagre 封装了 dagre 提供的布局算法。(对比来说目前最优，但是展现方式和我们的需求还是有差距，研究中……)
+* 2.plugin.layout.dagre 封装了 dagre 提供的布局算法。(对比来说目前最优，但是展现方式和我们的需求还是有差距，研究中……)
 ```
 const dagre = new G6.Layouts.Dagre({
   rankdir:'TB'   //布局方向 TB,BT,LR,RL
