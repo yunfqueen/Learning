@@ -19,7 +19,7 @@
   }
   fn(); 
 ```
-* 不能重复定义变量（不在同一个作用域中）
+* 不能重复定义变量
 ```
   let a = 12;
   let a = 5;
@@ -30,7 +30,8 @@
   //for循环是父级作用域
   for(let i=0;i<3;i++){
     let i = 'abc';
-    console.log(i) //三次'abc'
+    console.log(i) 
+    //三次'abc'，此处没有报错是因为{}中的i与for定义的i不在同一个作用域中，for为父级作用域
   }
   console.log(i) //undefind
 ```
