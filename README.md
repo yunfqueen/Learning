@@ -1,2 +1,2 @@
-#### pink isnt just a color ,its an attitute
+#### life never ceases to surprise,All 
 
