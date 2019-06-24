@@ -1,5 +1,5 @@
 ### 请配合学习笔记使用
-#### [学习笔记](https://www.yuque.com/yunye-rbzrv/lsoz7w/ddtirc)
+#### [学习笔记](https://www.yuque.com/yunye-rbzrv/ripeqq/ddtirc)
 #### 参考
 * [TypeScript 官网](https://www.tslang.cn/docs/home.html)
 * [TypeScript 入门教程](https://ts.xcatliu.com/)
