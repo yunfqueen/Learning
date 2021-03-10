@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>滚鱼闭包，作用域</title>
+</head>
+
+<body>
+    <script>
+        var foo = 1;
+        var bar = 2;
+
+        function myFunc() {
+            //-- define local-to-function variables
+            var a = 1;
+            var b = 2;
+            var foo = 3;
+
+            console.log("inside myFunc");
+        }
+
+        console.log("outside");
+
+        //-- and then, call it:
+        myFunc();
+
+        //我们将这个嵌套函数返回，并被另外一个地方的标识符所引用的话，
+        //那么这个嵌套函数及其[[scope]]所引用的作用域对象就不会被垃圾回收所销毁。
+        function createCounter(initial) {
+            var counter = initial;
+
+            function increment(value) {
+                counter += value;
+            }
+
+            function get() {
+                return counter;
+            }
+
+            return {
+                increment: increment,
+                get: get
+            };
+        }
+
+        var myCounter = createCounter(100);
+
+        console.log(myCounter.get());   // 返回 100
+        myCounter.increment(5);
+        console.log(myCounter.get());   // 返回 105
+
+        //===解析执行上下文
+        let a = 3     //声明新变量a并赋值3
+        function addTwo(x) {
+            let ret = x + 2
+            return ret
+        }
+        let b = addwo(a)
+        console.log(b)
+
+        //======================
+        //函数定义可以存储在变量中，函数定义在程序调用之前是不可见的。
+        //每次调用函数时，都会(临时)创建一个本地执行上下文。
+        //当函数完成时，执行上下文将消失。函数在遇到return或右括号}时执行完成。
+        let val = 7
+        function createAdder() {
+            function addNumbers(a, b) {
+                let ret = a + b
+                return ret
+            }
+            return addNumbers
+        }
+        let adder = createAdder()
+        let sum = adder(val, 8)
+        console.log('example of function returning a function: ', sum)
+
+//=========一个闭包=====================、
+        //在全局执行上下文中创建一个新的变量createCounter，它得到了指定的函数定义。
+        function createCounter() {
+            //在本地执行上下文中，声明一个名为counter的新变量并赋值为 0;
+            let counter = 0
+            //声明一个名为myFunction的新变量，变量在本地执行上下文中声明,变量的内容是另一个函数定义。
+            //现在我们还创建了一个闭包，并将其作为函数定义的一部分。闭包包含作用域中的变量，在本例中是变量counter(值为0)。
+            const myFunction = function () {
+                counter = counter + 1 //a行
+                return counter         //b行
+            }
+            //返回myFunction变量的内容,删除本地执行上下文。myFunction和counter不再存在。
+            //控制权交给了调用上下文，我们返回函数定义和它的闭包，闭包中包含了创建它时在作用域内的变量。
+            return myFunction
+        }
+        //在全局执行上下文中声明了一个名为increment的新变量
+        //调用createCounter函数并将其返回值赋给increment变量。
+        //调用函数，创建新的本地执行上下文。
+        const increment = createCounter()
+        //在调用上下文(全局执行上下文)中，createCounter返回的值被指定为increment，
+        //变量increment现在包含一个函数定义(和闭包),由createCounter返回的函数定义,
+        //它不再标记为myFunction，但它的定义是相同的,在全局上下文中，称为increment。
+
+        //声明一个新变量(c1)。
+        //查找increment变量，它是一个函数并调用它。它是一个函数，调用它。
+        //它包含前面返回的函数定义,如a，b行所定义的。(它还有一个带有变量的闭包)。
+        const c1 = increment()
+        const c2 = increment()
+        const c3 = increment()
+        console.log('example increment', c1, c2, c3) //1，2，3
+
+//=======================================
+        //5->5,5,5,5,5
+        for (var i = 0; i < 5; i++) {
+            setTimeout(function() {
+                console.log(new Date, i);
+            }, 1000);
+        }
+
+        console.log(new Date, i); 
+
+        //5->0,1,2,3,4
+        //方法一
+        let timer=(j)=>{
+            setTimeout(function() {
+                console.log(new Date, j);
+            }, 1000);
+        }
+        for (var i = 0; i < 5; i++) {
+            (function(j){
+                setTimeout(function() {
+                    console.log(new Date, j);
+                }, 1000);
+            })(i)
+        }
+        console.log(new Date, i); 
+        
+        //方法二
+        for (var i = 0; i < 5; i++) {
+            setTimeout(function(j) {
+                console.log(new Date, j);
+            }, 1000, i);
+        }
+
+        console.log(new Date, i);
+
+        //方法三
+        var output = function (i) {
+            setTimeout(function() {
+                console.log(new Date, i);
+            }, 1000);
+        };
+
+        for (var i = 0; i < 5; i++) {
+            output(i);  // 这里传过去的 i 值被复制了
+        }
+
+        console.log(new Date, i);
+
+        //0 -> 1 -> 2 -> 3 -> 4 -> 5
+        //方法一
+        for (var i = 0; i < 5; i++) {
+            (function(j) {
+                setTimeout(function() {
+                    console.log(new Date, j);
+                }, 1000 * j);  // 这里修改 0~4 的定时器时间
+            })(i);
+        }
+
+        setTimeout(function() { // 这里增加定时器，超时设置为 5 秒
+            console.log(new Date, i);
+        }, 1000 * i);
+
+        //方法二 Promise异步操作
+        const task = [];
+        const output=(i)=>new Promise((resolve)=>{
+            setTimeout(()=>{
+                coonsole.log(new Date,i);
+                resolve();
+            },1000*i)
+        })
+        for(var ii = 0;i<5;i++){
+            tasks.pussh(output(i));
+        }
+        Promise.all(tasks).then(()=>{
+            setTimeout(()=>{
+                conssole.log(new Date,i)
+            },1000)
+        })
+
+        //方法三
+        const sleep=(timer)=>new Promise((resolve)=>{
+            setTimeout(resolve,timer)
+        });
+        (async()=>{
+            for(var i=0;i<5;i++){
+                if(i>0){
+                    await sleep(1000);
+                }
+                console.log(new Date,i)
+            }
+            await sleep(1000)
+            consosle.log(new Date,1)
+        })()
+
+    </script>
+</body>
+
+</html>

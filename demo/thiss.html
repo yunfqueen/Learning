@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>this</title>
+</head>
+<body>
+    <script>
+        //this
+        var value = 1;
+
+        var foo = {
+        value: 2,
+        bar: function () {
+            return this.value;
+        }
+        }
+
+        //示例1
+        console.log(foo.bar());
+        //示例2
+        console.log((foo.bar)());
+        //示例3
+        console.log((foo.bar = foo.bar)());
+        //示例4
+        console.log((false || foo.bar)());
+        //示例5
+        console.log((foo.bar, foo.bar)());
+    </script>
+</body>
+</html>
