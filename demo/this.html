@@ -9,30 +9,149 @@
 <body>
     <script>
         //this
-        var value = 1;
+        // var value = 1;
 
-        var foo = {
-        value: 2,
-        bar: function () {
-            return this.value;
-        }
-        }
+        // var foo = {
+        // value: 2,
+        // bar: function () {
+        //     return this.value;
+        // }
+        // }
 
-        //示例1
-        console.log(foo.bar());
-        //示例2
-        console.log((foo.bar)());
-        //示例3
-        console.log((foo.bar = foo.bar)());
-        //示例4
-        console.log((false || foo.bar)());
-        //示例5
-        console.log((foo.bar, foo.bar)());
+        // //示例1
+        // console.log(foo.bar());
+        // //示例2
+        // console.log((foo.bar)());
+        // //示例3
+        // console.log((foo.bar = foo.bar)());
+        // //示例4
+        // console.log((false || foo.bar)());
+        // //示例5
+        // console.log((foo.bar, foo.bar)());
+
+
+//=====================================================================================================//
+
+    //==========this隐式绑定=====//
+        //==1.函数调用时，前面存在调用它的对象，那么this就会隐式绑定到这个对象上==//
+        function fn() {
+            console.log(this.name);
+        };
+        let obj = {
+            name: 'objname',
+            func: fn
+        };
+        obj.func()  //objname
+
+        //==2.函数调用前存在多个对象，this指向距离调用自己最近的对象==//
+        function fn() {
+            console.log(this.name);
+        };
+        let obj1 = {
+            name: 'obj1Name', //若将此处注释掉，则最后打印出的结果为undefined
+            func: fn,
+        };
+        let obj2 = {
+            name: 'obj2Name',
+            func: obj1
+        };
+        obj2.func.func() //obj1Name
+
+        //==3.隐式绑定丢失--作为参数传递以及变量赋值 ==//
+        var name = 'windowname';
+        let obj3 = {
+            name: 'obj3name',
+            fn: function () {
+                console.log(this.name);
+            }
+        };
+
+        function fn1(param) {
+            param();
+        };
+        fn1(obj3.fn);//obj3name 该处只是传递的fn1函数，thhis没有跟函数绑定，所以this丢失指向window
+
+        //==3.隐式绑定不一定都指向全局对象==//
+        var name = 'windowname';
+        let obj4 = {
+            name: 'obj4name',
+            fn: function () {
+                console.log(this.name);
+            }
+        };
+        let obj5 = {
+            name: 'obj5name'
+        }
+        obj5.fn = obj4.fn;
+        obj5.fn(); //obj5name
+
+    //================this显式绑定====================//
+        let obj6 = {
+            name: 'obj6name'
+        };
+        let obj7 = {
+            name: 'obj7name'
+        };
+        let obj8 = {
+            name: 'obj8name'
+        }
+        var name = 'windowname';
+
+        function fn() {
+            console.log(this.name);
+        };
+        fn(); //windowname
+        fn.call(obj6); //obj6name
+        fn.apply(obj7); //obj7name
+        fn.bind(obj8)(); //obj8name
+
+        //如果在使用call之类的方法改变this指向时，指向参数提供的是null或者undefined，那么 this 将指向全局对象。
+        fn.call(undefined); //windowname
+        fn.apply(null); //windowname
+        fn.bind(undefined)(); //windowname
+
+        //bind属于硬绑定，返回的 boundFunction 的 this 指向无法再次通过bind、apply或 call 修改
+        let boundFn = fn.bind(obj6);//obj6name
+        boundFn.call(obj7);//obj6name
+        boundFn.apply(obj7);//obj6name
+        boundFn.bind(obj7)();//obj6name
+
+        var strname = 'windowName'
+
+        var obj1 = {
+            strname: 'obj1Name',
+            fn1: function () {
+                console.log(this.strname)
+            },
+            fn2: () => console.log(this.strname),
+            fn3: function () {
+                return function () {
+                    console.log(this.strname)
+                }
+            },
+            fn4: function () {
+                return () => console.log(this.strname)
+            }
+        }
+        var obj2 = {
+            strname: 'obj2Name'
+        };
+
+        obj1.fn1(); //obj1Name fn1调用前有一个obj1，this为隐式绑定指向obj1
+
+
+        obj1.fn1.call(obj2);//obj2Name  显式绑定优先级高于隐式绑定，
+
+        obj1.fn2();//obj1Name    windowName
+        obj1.fn2.call(obj2);//obj2Name    windowName
+
+        obj1.fn3()();//windowName
+        obj1.fn3().call(obj2);//obj2Name
+        obj1.fn3.call(obj2)();//windowName
+
+        obj1.fn4()();//windowName   obj1Name
+        obj1.fn4().call(obj2);//obj2Name   obj1Name
+        obj1.fn4.call(obj2)();//windowName   obj2Name
     </script>
 </body>
 </html>
-
-<script>
-    var fn = obj.sayname();
-    window.fn()
-</script>

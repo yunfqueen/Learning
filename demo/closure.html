@@ -10,6 +10,7 @@
 
 <body>
     <script>
+        //==========================================//
         var foo = 1;
         var bar = 2;
 
@@ -27,6 +28,7 @@
         //-- and then, call it:
         myFunc();
 
+        //====================================================================//
         //我们将这个嵌套函数返回，并被另外一个地方的标识符所引用的话，
         //那么这个嵌套函数及其[[scope]]所引用的作用域对象就不会被垃圾回收所销毁。
         function createCounter(initial) {
@@ -47,21 +49,20 @@
         }
 
         var myCounter = createCounter(100);
-
         console.log(myCounter.get());   // 返回 100
         myCounter.increment(5);
         console.log(myCounter.get());   // 返回 105
 
-        //===解析执行上下文
+        //===解析执行上下文=================================================//
         let a = 3     //声明新变量a并赋值3
         function addTwo(x) {
             let ret = x + 2
             return ret
         }
-        let b = addwo(a)
+        let b = addTwo(a)
         console.log(b)
 
-        //======================
+        //=============================================================//
         //函数定义可以存储在变量中，函数定义在程序调用之前是不可见的。
         //每次调用函数时，都会(临时)创建一个本地执行上下文。
         //当函数完成时，执行上下文将消失。函数在遇到return或右括号}时执行完成。
@@ -77,9 +78,9 @@
         let sum = adder(val, 8)
         console.log('example of function returning a function: ', sum)
 
-//=========一个闭包=====================、
-        //在全局执行上下文中创建一个新的变量createCounter，它得到了指定的函数定义。
-        function createCounter() {
+        //=============================一个闭包========================================================//
+        //在全局执行上下文中创建一个新的变量createCounter2，它得到了指定的函数定义。
+        function createCounter2() {
             //在本地执行上下文中，声明一个名为counter的新变量并赋值为 0;
             let counter = 0
             //声明一个名为myFunction的新变量，变量在本地执行上下文中声明,变量的内容是另一个函数定义。
@@ -93,11 +94,11 @@
             return myFunction
         }
         //在全局执行上下文中声明了一个名为increment的新变量
-        //调用createCounter函数并将其返回值赋给increment变量。
+        //调用createCounter2函数并将其返回值赋给increment变量。
         //调用函数，创建新的本地执行上下文。
-        const increment = createCounter()
-        //在调用上下文(全局执行上下文)中，createCounter返回的值被指定为increment，
-        //变量increment现在包含一个函数定义(和闭包),由createCounter返回的函数定义,
+        const increment = createCounter2()
+        //在调用上下文(全局执行上下文)中，createCounter2返回的值被指定为increment，
+        //变量increment现在包含一个函数定义(和闭包),由createCounter2返回的函数定义,
         //它不再标记为myFunction，但它的定义是相同的,在全局上下文中，称为increment。
 
         //声明一个新变量(c1)。
@@ -108,35 +109,35 @@
         const c3 = increment()
         console.log('example increment', c1, c2, c3) //1，2，3
 
-//=======================================
+        //=====================================================================//
         //5->5,5,5,5,5
         for (var i = 0; i < 5; i++) {
-            setTimeout(function() {
+            setTimeout(function () {
                 console.log(new Date, i);
             }, 1000);
         }
 
-        console.log(new Date, i); 
+        console.log(new Date, i);
 
         //5->0,1,2,3,4
         //方法一
-        let timer=(j)=>{
-            setTimeout(function() {
+        let timer = (j) => {
+            setTimeout(function () {
                 console.log(new Date, j);
             }, 1000);
         }
         for (var i = 0; i < 5; i++) {
-            (function(j){
-                setTimeout(function() {
+            (function (j) {
+                setTimeout(function () {
                     console.log(new Date, j);
                 }, 1000);
             })(i)
         }
-        console.log(new Date, i); 
-        
+        console.log(new Date, i);
+
         //方法二
         for (var i = 0; i < 5; i++) {
-            setTimeout(function(j) {
+            setTimeout(function (j) {
                 console.log(new Date, j);
             }, 1000, i);
         }
@@ -145,7 +146,7 @@
 
         //方法三
         var output = function (i) {
-            setTimeout(function() {
+            setTimeout(function () {
                 console.log(new Date, i);
             }, 1000);
         };
@@ -159,49 +160,48 @@
         //0 -> 1 -> 2 -> 3 -> 4 -> 5
         //方法一
         for (var i = 0; i < 5; i++) {
-            (function(j) {
-                setTimeout(function() {
+            (function (j) {
+                setTimeout(function () {
                     console.log(new Date, j);
                 }, 1000 * j);  // 这里修改 0~4 的定时器时间
             })(i);
         }
 
-        setTimeout(function() { // 这里增加定时器，超时设置为 5 秒
+        setTimeout(function () { // 这里增加定时器，超时设置为 5 秒
             console.log(new Date, i);
         }, 1000 * i);
 
         //方法二 Promise异步操作
-        const task = [];
-        const output=(i)=>new Promise((resolve)=>{
-            setTimeout(()=>{
-                coonsole.log(new Date,i);
+        const tasks = [];
+        const output2 = (i) => new Promise((resolve) => {
+            setTimeout(() => {
+                console.log(new Date, i);
                 resolve();
-            },1000*i)
+            }, 1000 * i)
         })
-        for(var ii = 0;i<5;i++){
-            tasks.pussh(output(i));
+        for (var i = 0; i < 5; i++) {
+            tasks.push(output2(i));
         }
-        Promise.all(tasks).then(()=>{
-            setTimeout(()=>{
-                conssole.log(new Date,i)
-            },1000)
+        Promise.all(tasks).then(() => {
+            setTimeout(() => {
+                console.log(new Date, i)
+            }, 1000)
         })
 
         //方法三
-        const sleep=(timer)=>new Promise((resolve)=>{
-            setTimeout(resolve,timer)
+        const sleep = (timer) => new Promise((resolve) => {
+            setTimeout(resolve, timer)
         });
-        (async()=>{
-            for(var i=0;i<5;i++){
-                if(i>0){
+        (async () => {
+            for (var i = 0; i < 5; i++) {
+                if (i > 0) {
                     await sleep(1000);
                 }
-                console.log(new Date,i)
+                console.log(new Date, i)
             }
             await sleep(1000)
-            consosle.log(new Date,1)
+            console.log(new Date, 1)
         })()
-
     </script>
 </body>
 
