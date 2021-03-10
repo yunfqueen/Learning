@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>变量提升</title>
+</head>
+
+<body>
+    <script>
+        //我们声明一个变量或是一个函数的时候，我们可以在起前面访问带该变量或函数；
+        //即：声明统一提前，赋值原地不变，如果在赋值之前访问变量或函数，返回结果分别是undefined或报错；
+        //变量已经声明过了，而且赋值，后面再次声明并且未修改值，这种声明方式会被直接忽略。
+        console.log(a)
+        a();
+        var a = 3;
+        function a() {
+            console.log(10);
+        }
+        console.log(a);
+        a = 6;
+        a();
+
+        //提升声明后可表示为
+        // function a() {
+        //     console.log(10);
+        // }
+        // var a; //再次声明a，并且未修改其值，忽略此处声明
+        // console.log(a) //function a(){ console.log(10); }
+        // a(); //10
+        // a = 3;
+        // console.log(a) //3
+        // a = 6;
+        // a(); //error: a is not a function
+    </script>
+</body>
+
+</html>
