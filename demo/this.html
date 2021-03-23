@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>this</title>
+    <title>this/call/apply/bind</title>
 </head>
 <body>
     <script>
@@ -116,6 +116,26 @@
         boundFn.apply(obj7);//obj6name
         boundFn.bind(obj7)();//obj6name
 
+    //========================================= 箭头函数的this =========================================//
+        
+        //该箭头函数的this指向取决于fn的this指向，一旦箭头函数的this绑定成功，无法被再次修改，但修改外层函数this指向可以达到间接修改箭头函数this的目的
+        function fn() {
+            return () => {  
+                console.log(this.name);
+            };
+        }
+        let obj1 = {
+            name: 'obj1name'
+        };
+        let obj2 = {
+            name: 'obj2name'
+        };
+        let bar = fn.call(obj1); // fn this指向obj1
+        bar.call(obj2); //obj1name
+
+
+        //=============== this绑定综合==============//
+
         var strname = 'windowName'
 
         var obj1 = {
@@ -142,16 +162,44 @@
 
         obj1.fn1.call(obj2);//obj2Name  显式绑定优先级高于隐式绑定，
 
-        obj1.fn2();//obj1Name    windowName
-        obj1.fn2.call(obj2);//obj2Name    windowName
+        obj1.fn2();//  windowName
+        obj1.fn2.call(obj2);// windowName
 
         obj1.fn3()();//windowName
         obj1.fn3().call(obj2);//obj2Name
         obj1.fn3.call(obj2)();//windowName
 
-        obj1.fn4()();//windowName   obj1Name
-        obj1.fn4().call(obj2);//obj2Name   obj1Name
-        obj1.fn4.call(obj2)();//windowName   obj2Name
+        obj1.fn4()();// obj1Name
+        obj1.fn4().call(obj2);// obj1Name
+        obj1.fn4.call(obj2)();// obj2Name
+
+
+    //=============== this绑定优先级 ====================================================//
+    //==显式大于隐式==//
+        let obj = {
+            name:'objname',
+            fn:function () {
+                console.log(this.name);
+            }
+        };
+        obj1 = {
+            name:'obj1name'
+        };
+        obj.fn.call(obj1);// obj1name
+
+    //==new大于隐式==//
+    let obj = {
+        name: 'objname',
+        fn: function () {
+            this.name = 'newobjname';
+        }
+    };
+    let echo = new obj.fn();
+    echo.name;//newobjname
+
+    //================================== call =====================//
+    
+
     </script>
 </body>
 </html>
