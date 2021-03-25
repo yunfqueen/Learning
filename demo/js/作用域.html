@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作用域</title>
+</head>
+<body>
+    <script>
+        // 作用域：程序源代码中定义变量的区域，规定了如何查找变量，也就是当前执行代码对变量的访问权限
+        //静态作用域即词法作用域，因为采用词法作用域，函数的作用域在函数定义的时候就决定了。
+        //采用静态作用域时，执行foo函数，先从foo函数内部查找是否有局部变量value，如果没有，就根据书写的位置，查找上面一层的代码，在这里是全局作用域，也就是value等于1，所以最后会打印1
+        var value = 1;
+        function foo() {
+            console.log(value);
+        }
+        function bar() {
+            var value = 2;
+            foo();
+        }
+        bar(); //1
+
+        //construcotr（构造器） 每个原型都有一个construcotr属性指向关联的构造函数
+        function Person() {}
+        console.log(Person === Person.prototype.constructor); //true
+
+        //读取实例属性查找顺序：实例属性（person）==》与对象关联的原型中的属性（person.__proto__ == Person.prototype）==》原型的原型==》顶层
+        function Person() {}
+        Person.prototype.name = 'name';
+        var person = new Person();
+        person.name = 'name of this person';
+        console.log(person.name) // name of this person
+        delete person.name;
+        console.log(person.name) // name
+
+        //原型对象是通过Object构造函数生成的
+        var obj = new Object();
+        obj.name = 'name'
+        console.log(obj.name) // name
+
+        // __proto__, 绝大部分浏览器都支持这个非标准的方法访问原型，然而它并不存在与Person.prototype中，
+        //实际上，它是来自于Object.prototype，与其说是一个属性，不如说是一个getter/setter，当使用obj.__proto__时，可以理解成返回了Object.getPrototypeOf(obj)
+
+    </script>
+</body>
+</html>

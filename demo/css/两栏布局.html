@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>常见布局</title>
+    <style>
+        /* 两栏布局 */
+        .box{
+            width: 500px;
+            height: 200px;
+            border: 1px solid #726f6f;
+            margin: 5px;
+        }
+        /* float + overflow（BFC 原理） */
+        .aside1{
+            float: left;
+            width: 200px;
+            height: 100%;
+            background: chocolate;
+        }
+        .main1{
+            overflow: hidden;
+            height: 100%;
+            background: rgb(209, 208, 208);
+        }
+        /* float + margin */
+        .aside2{
+            float: left;
+            width: 200px;
+            height: 100%;
+            background: rgba(243, 40, 13, 0.952);
+        }
+        .main2{
+            margin-left: 200px;
+            height: 100%;
+            background: rgb(30, 210, 195);
+        }
+        /* flex */
+        .box3{
+            display: flex;
+        }
+        .aside3{
+            width: 200px;
+            background: rgba(243, 40, 13, 0.952);
+        }
+        .main3{
+            flex: 1;
+            background: rgb(30, 210, 195);
+        }
+        /* grid */
+        .box4{
+            display: grid;
+            grid-template-columns: 200px auto;
+        }
+        .aside4{
+            background: rgba(243, 40, 13, 0.952);
+        }
+        .main4{
+            background: rgb(30, 210, 195);
+        }
+    </style>
+</head>
+<body>
+    <!-- 两栏布局 -->
+    <!-- float + overflow（BFC 原理） -->
+    <div class="box">
+        <div class="aside1">aside</div>
+        <div class="main1">float + overflow（BFC 原理)</div>
+    </div>
+    <!-- float + margin -->
+    <div class="box">
+        <div class="aside2">aside</div>
+        <div class="main2">float + margin</div>
+    </div>
+    <!-- flex -->
+    <div class="box box3">
+        <div class="aside3">aside</div>
+        <div class="main3">flex</div>
+    </div>
+    <!-- grid -->
+    <div class="box box4">
+        <div class="aside4">aside</div>
+        <div class="main4">grid</div>
+    </div>
+</body>
+</html>

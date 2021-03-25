@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>水平垂直居中</title>
+    <style>
+        /* absoslute + transform */
+        .box{
+            float: left;
+        }
+        .box1{
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border: 1px solid #cccbcb;
+        }
+        .child1{
+            position: absolute;
+            background: tomato;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+        }
+
+        /* line-height + vertical-align */
+        .box2{
+            line-height: 100px;
+            height: 100px;
+            width: 500px;
+            text-align: center;
+            border: 1px solid #cccbcb;
+        }
+        .child2{
+            display: inline-block;
+            line-height: initial;
+            vertical-align: middle;
+            background: tomato;
+        }
+
+        /* writing-mode */
+        .box3{
+            writing-mode: vertical-lr;
+            text-align: center;
+            height: 200px;
+            width: 200px;
+            padding: 20px;
+            border: 1px solid #cccbcb;
+        }
+        .child3{
+            display: inline-block;
+        }
+        .middle3{
+            display: inline-block;
+            writing-mode: horizontal-tb;
+            text-align: center;
+            width: 100%;
+            background: tomato;
+        }
+
+        /* table-cell */
+        .box4{
+            height: 100px;
+            width: 100px;
+            border: 1px solid #cccbcb;
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+        .child4{
+            display: inline-block;
+            background: tomato;
+        }
+        /* flex */
+        .box5{
+            height: 100px;
+            width: 100px;
+            border: 1px solid #cccbcb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .child5{
+            background: tomato;
+        }
+
+        /* grid */
+        .box6{
+            height: 100px;
+            width: 100px;
+            border: 1px solid #cccbcb;
+            display: grid;
+            justify-content: center;
+            align-items: center;
+        }
+        .child6{
+            background: tomato;
+        }
+    </style>
+</head>
+<body>
+    <!-- absoslute + transform -->
+    <div class="box box1">
+        <div class="child1">absoslute + transform</div>
+    </div>
+    <!-- line-height + vertical-align -->
+    <div class="box box2">
+        <div class="child2">line-height + vertical-align</div>
+    </div>
+    <!-- writing-mode -->
+    <div class="box box3">
+        <div class="child3 middle3">writing-modes</div>
+    </div>
+    <!-- table-cell -->
+    <div class="box4">
+        <div class="child4">table-cell</div>
+    </div>
+    <!-- flex -->
+    <div class="box box5">
+        <div class="child5">flex</div>
+    </div>
+    <!-- grid -->
+    <div class="box box6">
+        <div class="child6">grid</div>
+    </div>
+</body>
+</html>

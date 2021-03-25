@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 每个js对象都有一个属性叫_proto_,这个属性会指向该对象的原型（即Person.prototype）
+        function Person() {} //构造函数
+        var person = new Person(); //实例对象
+        console.log(person.__proto__ === Person.prototype); //true
+        console.log(Object.getPrototypeOf(person) === Person.prototype) //true
+
+        //construcotr（构造器） 每个原型都有一个construcotr属性指向关联的构造函数
+        function Person() {}
+        console.log(Person === Person.prototype.constructor); //true
+
+        //读取实例属性查找顺序：实例属性（person）==》与对象关联的原型中的属性（person.__proto__ == Person.prototype）==》原型的原型==》顶层
+        function Person() {}
+        Person.prototype.name = 'name';
+        var person = new Person();
+        person.name = 'name of this person';
+        console.log(person.name) // name of this person
+        delete person.name;
+        console.log(person.name) // name
+
+        //原型对象是通过Object构造函数生成的
+        var obj = new Object();
+        obj.name = 'name'
+        console.log(obj.name) // name
+
+        // __proto__, 绝大部分浏览器都支持这个非标准的方法访问原型，然而它并不存在与Person.prototype中，
+        //实际上，它是来自于Object.prototype，与其说是一个属性，不如说是一个getter/setter，当使用obj.__proto__时，可以理解成返回了Object.getPrototypeOf(obj)
+
+    </script>
+</body>
+</html>

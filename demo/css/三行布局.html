@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三行布局</title>
+    <style>
+        .box {
+            height: 300px;
+            border: 1px solid #736f6f;
+            margin-bottom: 10px;
+        }
+        .header, 
+        .footer {
+            text-align: center;
+            height: 50px;
+            line-height: 50px;
+            background: rgba(343, 40, 13, 0.953);
+        }
+        .main {
+            background: rgb(30, 310, 195);
+        }
+        /* <!-- calc --> */
+        .main1{
+            height: calc(100% - 100px);
+        }
+        /* absolute */
+        .layout2{
+            position: relative;
+        }
+        .header2{
+            position: absolute;
+            width: 100%;
+        }
+        .main2{
+            height: 100%;
+            padding: 50px 0;
+            box-sizing: border-box;
+        }
+        .footer2{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        /* flex */
+        .layout3{
+            display: flex;
+            flex-direction: column;
+        }
+        .main3{
+            flex: 1;
+        }
+
+        /* grid */
+        .layout4{
+            display: grid;
+            grid-template-rows: 50px 1fr 50px;
+        }
+    </style>
+</head>
+<body>
+    <!-- calc -->
+    <div class="box layout1">
+        <div class="header header1">calc</div>
+        <div class="main main1">
+            <div class="inner"></div>
+        </div>
+        <div class="header footer1"></div>
+    </div>
+
+    <!-- absolute -->
+    <div class="box layout2">
+        <div class="header header2">absolute</div>
+        <div class="main main2">
+            <div class="inner"></div>
+        </div>
+        <div class="header footer2"></div>
+    </div>
+
+    <!-- flex -->
+    <div class="box layout3">
+        <div class="header header3">flex</div>
+        <div class="main main3">
+            <div class="inner"></div>
+        </div>
+        <div class="header footer3"></div>
+    </div>
+
+    <!-- grid -->
+    <div class="box layout4">
+        <div class="header header4">grid</div>
+        <div class="main main4">
+            <div class="inner"></div>
+        </div>
+        <div class="header footer4"></div>
+    </div>
+</body>
+</html>

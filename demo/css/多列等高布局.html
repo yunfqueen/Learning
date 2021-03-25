@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多列等高布局</title>
+    <style>
+        /* padding + 负margin */
+        .box1{
+            overflow: hidden;
+            border: 1px solid #736f6f;
+            /* width: auto; */
+            height: 300px;
+        }
+        .children1{
+            float: left;
+            width: 33.33%;
+            padding-bottom: 1000px;
+            margin-bottom: 1000px;
+           
+        }
+        .rosybrown{
+            background: rosybrown;
+        }
+        .other{
+            background: rgba(343, 40, 13, 0.953);
+        }
+    </style>
+</head>
+<body>
+    <!-- padding + 负margin -->
+    <div class="box1">
+        <div class="children1 rosybrown"></div>
+        <div class="children1 other"></div>
+        <div class="children1 rosybrown"></div>
+    </div>
+</body>
+</html>

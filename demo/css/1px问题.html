@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1px</title>
+    <style>
+        .box{
+            width: 200px;
+            height: 200px;
+            margin: 10px;
+        }
+        /* .scale-1px {
+            position: relative;
+            border: none;
+        }
+
+        .scale-1px:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            background: #000;
+            width: 100%;
+            height: 1px;
+            -webkit-transform: scaleY(0.5);
+            transform: scaleY(0.5);
+            -webkit-transform-origin: 0 0;
+            transform-origin: 0 0;
+        } */
+
+        /* 4条 */
+        .scale-1px {
+            position: relative;
+            margin-bottom: 20px;
+            border: none;
+        }
+
+        .scale-1px:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: 1px solid #000;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            width: 200%;
+            height: 200%;
+            -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+            -webkit-transform-origin: left top;
+            transform-origin: left top;
+        }
+
+        /* 多背景渐变 */
+        .background-border {
+            background:
+            linear-gradient(180deg, black, black 50%, transparent 50%) top    left  / 100% 1px no-repeat,
+            linear-gradient(90deg,  black, black 50%, transparent 50%) top    right / 1px 100% no-repeat,
+            linear-gradient(0,      black, black 50%, transparent 50%) bottom right / 100% 1px no-repeat,
+            linear-gradient(-90deg, black, black 50%, transparent 50%) bottom left  / 1px 100% no-repeat;
+        }
+        /* .background-gradient-1px {
+        background:
+            linear-gradient(#000, #000 100%, transparent 100%) left / 1px 100% no-repeat,
+            linear-gradient(#000, #000 100%, transparent 100%) right / 1px 100% no-repeat,
+            linear-gradient(#000,#000 100%, transparent 100%) top / 100% 1px no-repeat,
+            linear-gradient(#000,#000 100%, transparent 100%) bottom / 100% 1px no-repeat
+        } */
+
+        /* box-shadow */
+        /* .box-shadow-1px {
+            box-shadow:  0px -1px 1px -1px #000 inset;
+        } */
+    </style>
+</head>
+
+<body>
+    <div id='box' class="box scalebox"></div>
+    <div class="box background-border"></div>
+    <div class="box box-shadow-1px"></div>
+    <script>
+        //判断是否为 Retina 屏
+
+        (function (doc, win) {
+            console.log(window.devicePixelRatio)
+            if (window.devicePixelRatio && devicePixelRatio >= 2) {
+                document.querySelector('.scalebox').className = 'box scale-1px';
+            }
+        }())
+    </script>
+
+</body>
+
+</html>
