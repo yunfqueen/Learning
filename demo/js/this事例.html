@@ -9,25 +9,29 @@
 <body>
     <script>
         //this
-        // var value = 1;
+        //判断ref 是不是一个 Reference 类型
+        // 2.1 如果 ref 是 Reference，并且 IsPropertyReference(ref) 是 true, 那么 this 的值为 GetBase(ref)
+        // 2.2 如果 ref 是 Reference，并且 base value 值是 Environment Record, 那么this的值为 ImplicitThisValue(ref)
+        // 2.3 如果 ref 不是 Reference，那么 this 的值为 undefined
+        var value = 1;
+        var foo = {
+        value: 2,
+        bar: function () {
+            return this.value;
+        }
+        }
 
-        // var foo = {
-        // value: 2,
-        // bar: function () {
-        //     return this.value;
-        // }
-        // }
+        //示例1
+        console.log(foo.bar()); //2
+        //示例2
+        console.log((foo.bar)()); //2
+        //示例3
+        console.log((foo.bar = foo.bar)()); //1 有赋值操作符等号，使用了 GetValue，ref 不是 Reference，this 的值为 undefined
+        //示例4
+        console.log((false || foo.bar)()); //1 有逻辑与算法，使用了 GetValue，ref 不是 Reference，this 的值为 undefined
+        //示例5
+        console.log((foo.bar, foo.bar)()); //1 有逗号操作符，使用了 GetValue，ref 不是 Reference，this 的值为 undefined
 
-        // //示例1
-        // console.log(foo.bar());
-        // //示例2
-        // console.log((foo.bar)());
-        // //示例3
-        // console.log((foo.bar = foo.bar)());
-        // //示例4
-        // console.log((false || foo.bar)());
-        // //示例5
-        // console.log((foo.bar, foo.bar)());
 
 
 //=====================================================================================================//
@@ -174,7 +178,7 @@
         obj1.fn4.call(obj2)();// obj2Name
 
 
-    //=============== this绑定优先级 ====================================================//
+    //==================================== this绑定优先级 ===============================//
     //==显式大于隐式==//
         let obj = {
             name:'objname',
@@ -196,10 +200,6 @@
     };
     let echo = new obj.fn();
     echo.name;//newobjname
-
-    //================================== call =====================//
-    
-
     </script>
 </body>
 </html>
